@@ -1,41 +1,46 @@
 {
-    //import { random } from "./functions/lib.js"
-
     //variables for motion tracking
     let video;
     let poseNet;
     let pose;
 
-    //variables voor images
-    let img;
-    let kerstbal;
-    let xkerstbal = 100;
-    let ykerstbal = 100;
 
 
 
-    //preload function for images
-    async function preload() {
-        img = await loadImage('assets/img/hand.png');
-        kerstbal = await loadImage('assets/img/kerstbal.png');
+    let laatLos = false;
 
-        poseNet.on('pose', gotPoses);
+    let ballX = 20;
+    let ballY = 50;
 
+    let imgKerstbal;
+    let imgHand;
+
+    let widthBall = 50;
+    let heightBall = 50;
+
+    let rollover = false;
+
+    function preload() {
+        imgHand = loadImage('assets/img/hand.png');
+        imgKerstbal = loadImage('assets/img/kerstbal.png');
     }
-
 
     function setup() {
-        preload();
         createCanvas(640, 480);
+        console.log(imgHand)
+        console.log(imgKerstbal);
+
+        image(imgHand, 0, 0)
+
+
         video = createCapture(VIDEO);
         video.hide();
-
         poseNet = ml5.poseNet(video, { flipHorizontal: true }, modelLoaded);
+        poseNet.on('pose', gotPoses);
 
 
-        //shape1 = new Ball(kerstbal, 100, 100, 50, 50);
+
     }
-
 
     function gotPoses(poses) {
         if (poses.length > 0) {
@@ -48,59 +53,61 @@
     }
 
     function draw() {
+        //posenet
         image(video, 0, 0);
+
         background(127, 127, 75);
 
-        /*  shape1.over();
-          shape1.update();
-          shape1.show();*/
-
-        drawChristmasBalls();
-
-        //  drawAccessoires();
-        getSkeletonpoints();
-    }
-
-    function drawChristmasBalls() {
         if (pose) {
-            let shape1 = new Ball(pose, kerstbal, 150, 100, 50, 50);
-            shape1.over();
-            shape1.update();
-            shape1.show();
-        }
-    }
+            getSkeletonpoints();
+            showKerstbal();
 
+            // nieuwe kerstbal klaarzetten 
+            if(laatLos){
 
-    function drawAccessoires() {
-        image(kerstbal, xkerstbal, ykerstbal, 70, 50);
-        if (pose) {
-            if (pose.nose.x > xkerstbal - 20 && pose.nose.x < xkerstbal + 20 && pose.nose.y > ykerstbal - 20 && pose.nose.y < ykerstbal + 20) {
-                image(kerstbal, pose.nose.x, pose.nose.y, 70, 50);
-                xkerstbal = pose.nose.x;
-                ykerstbal = pose.nose.y;
             }
         }
-
     }
 
+    function mousePressed() {
+        laatLos = !laatLos;
+    }
 
 
     function getSkeletonpoints() {
-        if (pose) {
-            let x = pose.nose.x;
-            let y = pose.nose.y;
-            //handje op neus
-            image(img, x - 20, y - 20, 50, 50);
-            // image(x, y, 0);
-            //clear();
+        x = pose.nose.x;
+        y = pose.nose.y;
+        //handje op neus
+        image(imgHand, x - 20, y - 20, 50, 50);
 
-            /* fill(0, 0, 255);
-             ellipse(pose.rightWrist.x, pose.rightWrist.y, 64);
-             ellipse(pose.leftWrist.x, pose.leftWrist.y, 64);*/
+
+    }
+
+    function showKerstbal() {          
+        if (!rollover) {
+            checkOver();
+            image(imgKerstbal, ballX, ballY, widthBall, heightBall)
+        } else {
+            if (!laatLos) {
+                image(imgKerstbal, pose.nose.x, pose.nose.y, widthBall, heightBall);
+                ballX = pose.nose.x;
+                ballY = pose.nose.y;
+            } else {
+                image(imgKerstbal, ballX, ballY, widthBall, heightBall);
+                rollover = false;
+                
+            }
         }
     }
 
+    function checkOver() {
+        // Is nose over object
+        let noseX = pose.nose.x;
+        let noseY = pose.nose.y;
 
-
+        if (noseX <= ballX + widthBall && noseX >= ballX && noseY <= ballY + heightBall && noseY >= ballY) {
+            rollover = true;
+        }
+    }
 
 }
