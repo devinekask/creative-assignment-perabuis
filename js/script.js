@@ -1,4 +1,5 @@
 {
+
     //variables for motion tracking
     let video;
     let poseNet;
@@ -23,7 +24,7 @@
     }
 
     const maakArray = () => {
-        let christmasDecorationArr = [];
+        
         for (let i = 0; i < 3; i++) {
             christmasDecorationArr.push({ image: `imgKerstbal${i}`, ballX: getRandomInt(1, 100), ballY: getRandomInt(1, 450), heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
         }
@@ -84,9 +85,7 @@
 
     }
 
-    function mousePressed() {
-        laatLos = !laatLos;
-    }
+
 
 
     function getSkeletonpoints() {
