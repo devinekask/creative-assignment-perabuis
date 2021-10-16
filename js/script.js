@@ -5,42 +5,55 @@
     let pose;
 
 
-
-
-    let laatLos = false;
-
-    let ballX = 20;
-    let ballY = 50;
-
-    let imgKerstbal;
+    let decorationsArr;
+    let imgKerstbal0;
+    let imgKerstbal1;
+    let imgKerstbal2;
     let imgHand;
 
-    let widthBall = 50;
-    let heightBall = 50;
 
-    let rollover = false;
+    let praat;
+
+
+
+    const getRandomInt = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    }
+
+    const maakArray = () => {
+        let christmasDecorationArr = [];
+        for (let i = 0; i < 3; i++) {
+            christmasDecorationArr.push({ image: `imgKerstbal${i}`, ballX: getRandomInt(1, 100), ballY: getRandomInt(1, 450), heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
+        }
+        return christmasDecorationArr;
+    }
+
+
+
 
     function preload() {
         imgHand = loadImage('assets/img/hand.png');
-        imgKerstbal = loadImage('assets/img/kerstbal.png');
+        imgKerstbal0 = loadImage('assets/img/kerstbal0.jpg');
+        imgKerstbal1 = loadImage('assets/img/kerstbal1.jpg');
+        imgKerstbal2 = loadImage('assets/img/kerstbal2.jpg');
+
+        decorationsArr = maakArray();
     }
+
 
     function setup() {
         createCanvas(640, 480);
-        console.log(imgHand)
-        console.log(imgKerstbal);
 
-        image(imgHand, 0, 0)
-
+        // image(imgHand, 0, 0);
 
         video = createCapture(VIDEO);
         video.hide();
         poseNet = ml5.poseNet(video, { flipHorizontal: true }, modelLoaded);
         poseNet.on('pose', gotPoses);
-
-
-
     }
+
 
     function gotPoses(poses) {
         if (poses.length > 0) {
@@ -58,15 +71,17 @@
 
         background(127, 127, 75);
 
+        rect(300, 0, 100, 500);
+        fill('red');
+        rect(600, 0, 100, 300);
+        image(imgHand, 300, 0, 100, 500);
+
         if (pose) {
             getSkeletonpoints();
             showKerstbal();
-
-            // nieuwe kerstbal klaarzetten 
-            if(laatLos){
-
-            }
+            askSanta();
         }
+
     }
 
     function mousePressed() {
@@ -79,35 +94,71 @@
         y = pose.nose.y;
         //handje op neus
         image(imgHand, x - 20, y - 20, 50, 50);
-
-
+        fill(0, 0, 255);
+        ellipse(pose.rightWrist.x, pose.rightWrist.y, 64);
+        ellipse(pose.leftWrist.x, pose.leftWrist.y, 64);
     }
 
-    function showKerstbal() {          
-        if (!rollover) {
-            checkOver();
-            image(imgKerstbal, ballX, ballY, widthBall, heightBall)
-        } else {
-            if (!laatLos) {
-                image(imgKerstbal, pose.nose.x, pose.nose.y, widthBall, heightBall);
-                ballX = pose.nose.x;
-                ballY = pose.nose.y;
-            } else {
-                image(imgKerstbal, ballX, ballY, widthBall, heightBall);
-                rollover = false;
-                
+
+    function showKerstbal() {
+        decorationsArr.forEach(kerstbal => {
+            //als je er niet over gaat
+            if (!kerstbal.rollover) {
+                checkOver(kerstbal);
+                image(imgKerstbal0, kerstbal.ballX, kerstbal.ballY, kerstbal.widthBall, kerstbal.heightBall)
             }
-        }
+            //als je er wel over gaat
+            else {
+                checkLaatlos(kerstbal);
+                //als je hem vastneemt
+                if (!kerstbal.laatLos) {
+                    image(imgKerstbal0, pose.nose.x, pose.nose.y, kerstbal.widthBall, kerstbal.heightBall);
+                    kerstbal.ballX = pose.nose.x;
+                    kerstbal.ballY = pose.nose.y;
+                }//als je hem loslaat 
+                else {
+                    image(imgKerstbal1, kerstbal.ballX, kerstbal.ballY, kerstbal.widthBall, kerstbal.heightBall);
+                    kerstbal.rollover = false;
+
+                }
+            }
+        })
+
     }
 
-    function checkOver() {
+    function checkOver(kerstbal) {
         // Is nose over object
         let noseX = pose.nose.x;
         let noseY = pose.nose.y;
 
-        if (noseX <= ballX + widthBall && noseX >= ballX && noseY <= ballY + heightBall && noseY >= ballY) {
-            rollover = true;
+        if (noseX <= kerstbal.ballX + kerstbal.widthBall && noseX >= kerstbal.ballX && noseY <= kerstbal.ballY + kerstbal.heightBall && noseY >= kerstbal.ballY) {
+            kerstbal.rollover = true;
         }
     }
+
+    function checkLaatlos(kerstbal) {
+        if ((pose.leftWrist.x > 300 && pose.leftWrist.x < 400)) {
+            console.log('ik laat hem los');
+            kerstbal.laatLos = true;
+        }
+        else {
+            kerstbal.laatLos = false;
+        }
+    }
+
+
+    function askSanta() {
+        let noseX = pose.nose.x;
+        let noseY = pose.nose.y;
+
+        if (noseX > 500 && noseY < 300) {
+            console.log('klaar om te praten');
+            praat = true;
+        }
+        else {
+            praat = false;
+        }
+    }
+
 
 }
