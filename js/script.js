@@ -24,7 +24,7 @@
     }
 
     const maakArray = () => {
-        
+
         for (let i = 0; i < 3; i++) {
             christmasDecorationArr.push({ image: `imgKerstbal${i}`, ballX: getRandomInt(1, 100), ballY: getRandomInt(1, 450), heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
         }
@@ -151,11 +151,11 @@
         let noseY = pose.nose.y;
 
         if (noseX > 500 && noseY < 300) {
-            console.log('klaar om te praten');
-            praat = true;
+            speech = true;
         }
         else {
-            praat = false;
+            speech = false;
+            aanHetPraten = false;
         }
     }
 

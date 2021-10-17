@@ -1,5 +1,6 @@
 {
 
+
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
     var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
     var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
@@ -11,7 +12,6 @@
     var speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
-    console.log(recognition)
     recognition.continuous = false;
     recognition.lang = 'en-US';
     recognition.interimResults = false;
@@ -23,15 +23,30 @@
 
     var colorHTML = '';
     colors.forEach(function (v, i, a) {
+        //V is de kleur, i de index, a zijn ze allemaal
         console.log(v, i);
         colorHTML += '<span style="background-color:' + v + ';"> ' + v + ' </span>';
     });
     hints.innerHTML = 'Tap/click then say a color to change the background color of the app. Try ' + colorHTML + '.';
 
-    document.body.onclick = function () {
-        recognition.start();
-        console.log('Ready to receive a color command.');
-    }
+
+    setInterval(function () {
+        if (speech) {
+            if (aanHetPraten) {
+                console.log('ik ben al aan het luisteren');
+            }
+            else {
+                aanHetPraten = true;
+                recognition.start();
+                console.log('Ready to receive a color command.');
+            }
+        }
+    }, 1000);
+
+    /* document.body.onclick = function () {
+         recognition.start();
+         console.log('Ready to receive a color command.');
+     }*/
 
     recognition.onresult = function (event) {
         // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
@@ -45,20 +60,29 @@
         var color = event.results[0][0].transcript;
         diagnostic.textContent = 'Result received: ' + color + '.';
         bg.style.backgroundColor = color;
-        console.log('Confidence: ' + event.results[0][0].confidence);
+        //console.log(color);
+        //console.log('Confidence: ' + event.results[0][0].confidence);
         christmasDecorationArr.push({ image: `imgKerstbal${3}`, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
-        console.log(christmasDecorationArr);
+        //  console.log(christmasDecorationArr);
     }
 
     recognition.onspeechend = function () {
         recognition.stop();
+        aanHetPraten = false;
     }
 
     recognition.onnomatch = function (event) {
         diagnostic.textContent = "I didn't recognise that color.";
+        aanHetPraten = false;
     }
 
     recognition.onerror = function (event) {
         diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+        aanHetPraten = false;
+        speech = false;
+        if (event.error == 'no-speech') {
+            //hier een variabele maken met feedback van santa
+            console.log('sorry ik hoorde je niet');
+        }
     }
 }
