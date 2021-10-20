@@ -5,6 +5,9 @@
     let poseNet;
     let pose;
 
+    
+
+
 
     let decorationsArr;
 
@@ -41,6 +44,7 @@
         imgHand = loadImage('assets/img/hand.png');
         imgReindeer = loadImage('assets/img/reindeer.png');
         imgSanta = loadImage('assets/img/santa.png');
+        imgHappySanta = loadImage('assets/img/santa.png');
         imgTree = loadImage('assets/img/tree.png');
 
         imgDecoration0 = loadImage('assets/img/ball0.png');
@@ -87,25 +91,24 @@
         //rect(x, y, w, [h], [tl], [tr], [br], [bl])
         fill(255);
       
-        //dit is waar de kerstman komt
-        //rect(490, 0, 150, 150);
-        image(imgSanta, 490, 0, 150, 172);
+   
         //CHRISTMAS TREE
        // rect(195,66, 250, 348);
-        image(imgTree, 195, 66, 250, 348);
+        image(imgTree, 170, 30, 300, 417);
         //REINDEER
         //rect(0, 300, 150, 150);
         image(imgReindeer, 0, 330, 160, 150);
     
        
         if (pose) {
-            getSkeletonpoints();
-            showKerstbal();
+           
+          showKerstbal();
             askSanta();
+            //op het einde zetten zodat de neus over de images komt, ipv eronder
+            getSkeletonpoints();
         }
 
     }
-
 
 
 
@@ -126,12 +129,12 @@
         decorationsArr.forEach(kerstbal => {
             //als je er niet over gaat
             if (!kerstbal.rollover) {
-                checkOver(kerstbal);
+                checkNoseOver(kerstbal);
                 image(kerstbal.image, kerstbal.ballX, kerstbal.ballY, kerstbal.widthBall, kerstbal.heightBall)
             }
             //als je er wel over gaat
             else {
-                checkLaatlos(kerstbal);
+                checkReindeerRelease(kerstbal);
                 //als je hem vastneemt
                 if (!kerstbal.laatLos) {
                     image(kerstbal.image, pose.nose.x, pose.nose.y, kerstbal.widthBall, kerstbal.heightBall);
@@ -148,7 +151,7 @@
 
     }
 
-    function checkOver(kerstbal) {
+    function checkNoseOver(kerstbal) {
         // Is nose over object
         let noseX = pose.nose.x;
         let noseY = pose.nose.y;
@@ -158,7 +161,8 @@
         }
     }
 
-    function checkLaatlos(kerstbal) {
+
+    function checkReindeerRelease(kerstbal) {
         if ((pose.leftWrist.x > 0 && pose.leftWrist.x < 150 && pose.leftWrist.y > 330 && pose.leftWrist.y < 480)) {
             console.log('ik laat hem los');
             kerstbal.laatLos = true;
@@ -173,13 +177,31 @@
         let noseX = pose.nose.x;
         let noseY = pose.nose.y;
 
-        if (noseX > 490 && noseY < 150) {
+             //dit is waar de kerstman komt
+        //rect(490, 0, 150, 150);
+        //als je niet over santa gaat!
+        if(!(noseX > 490 && noseY > 150 && noseY < 288)){
+            image(imgHappySanta, 490, 150, 100, 115);
+        }
+
+      //als je wel over santa gaat!
+        if (noseX > 490 && noseY > 150 && noseY < 288) {
+           image(imgSanta, 480, 140, 120, 135);
             speech = true;
+            santaText = "braaf zijn he";
         }
         else {
             speech = false;
             aanHetPraten = false;
+            santaText = "Dear child, I have to tell you something";
+           
+            
         }
+        textAlign(CENTER);
+        fill(255,255,255);
+        textFont('Space mono');
+        textSize(10);
+        text(santaText, 470, 80, 150, 80);
     }
 
 

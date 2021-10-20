@@ -50,13 +50,45 @@ html, body{
 
 
 body {
-  margin-top: 5rem;
+  margin-top: 2rem;
   background-color: var(--color-primary);
-  background-image: url("../assets/img/background.png");
+  /*background-image: url("../assets/img/background.png");
   background-size: 69rem 52rem;
-  background-repeat: repeat;
-  
+  background-repeat: repeat;*/
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
 }
+
 .p5Canvas {
   border: 1px solid white;
+
 }
+
+@keyframes flickerAnimation1 {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+
+.starAnimation1 {
+  animation: flickerAnimation1 4s infinite;
+
+  
+}
+.test {
+  position: fixed;
+  left: 4rem;
+  top: -20rem;
+}
+
+/*display canvas on top of stars background*/
+/*.stars {
+  grid-row: 1/2;
+  grid-column: 1/2;
+}
+main {
+  grid-row: 1/2;
+  grid-column: 1/2;
+}*/
