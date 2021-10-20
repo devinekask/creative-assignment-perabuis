@@ -22,11 +22,11 @@
     var hints = document.querySelector('.hints');
 
     var colorHTML = '';
-    colors.forEach(function (v, i, a) {
-        //V is de kleur, i de index, a zijn ze allemaal
-        console.log(v, i);
-        colorHTML += '<span style="background-color:' + v + ';"> ' + v + ' </span>';
-    });
+    /* colors.forEach(function (v, i, a) {
+         //V is de kleur, i de index, a zijn ze allemaal
+         console.log(v, i);
+         colorHTML += '<span style="background-color:' + v + ';"> ' + v + ' </span>';
+     });*/
     hints.innerHTML = 'Tap/click then say a color to change the background color of the app. Try ' + colorHTML + '.';
 
 
@@ -62,7 +62,7 @@
         bg.style.backgroundColor = color;
         //console.log(color);
         //console.log('Confidence: ' + event.results[0][0].confidence);
-        christmasDecorationArr.push({ image: `imgKerstbal${3}`, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
+        christmasDecorationArr.push({ image: imgDecoration1, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
         //  console.log(christmasDecorationArr);
     }
 
