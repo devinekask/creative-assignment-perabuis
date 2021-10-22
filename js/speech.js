@@ -27,7 +27,7 @@
          console.log(v, i);
          colorHTML += '<span style="background-color:' + v + ';"> ' + v + ' </span>';
      });*/
-    hints.innerHTML = 'Tap/click then say a color to change the background color of the app. Try ' + colorHTML + '.';
+ //   hints.innerHTML = 'Tap/click then say a color to change the background color of the app. Try ' + colorHTML + '.';
 
 
     setInterval(function () {
@@ -59,11 +59,19 @@
         // We then return the transcript property of the SpeechRecognitionAlternative object
         var color = event.results[0][0].transcript;
         diagnostic.textContent = 'Result received: ' + color + '.';
-        bg.style.backgroundColor = color;
+       // bg.style.backgroundColor = color;
+
+        if(color == 'blue'){
+            console.log('tis blauw!');
+            christmasDecorationArr.push({ image: imgDecoration2, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
+        }
+        else {
+            christmasDecorationArr.push({ image: imgDecoration1, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
+            //  console.log(christmasDecorationArr);
+        }
         //console.log(color);
         //console.log('Confidence: ' + event.results[0][0].confidence);
-        christmasDecorationArr.push({ image: imgDecoration1, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
-        //  console.log(christmasDecorationArr);
+        
     }
 
     recognition.onspeechend = function () {

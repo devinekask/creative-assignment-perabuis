@@ -5,19 +5,19 @@
     let poseNet;
     let pose;
 
-    
+
 
 
 
     let decorationsArr;
 
-   /* let imgHand;
-    let imgReindeer;
-    let imgReindeer;
-    let imgKerstbal0;
-    let imgKerstbal1;
-    let imgKerstbal2;*/
- 
+    /* let imgHand;
+     let imgReindeer;
+     let imgReindeer;
+     let imgKerstbal0;
+     let imgKerstbal1;
+     let imgKerstbal2;*/
+
 
 
 
@@ -57,17 +57,17 @@
 
     function setup() {
         //canvas = createCanvas(640, 480);
-        canvas = createCanvas(960 , 720);
+        canvas = createCanvas(960, 720);
         canvas.center('horizontal');
         // image(imgHand, 0, 0);
 
         video = createCapture(VIDEO);
-     
+
         video.hide();
         poseNet = ml5.poseNet(video, { flipHorizontal: true }, modelLoaded);
         poseNet.on('pose', gotPoses);
 
-        
+
     }
 
 
@@ -90,19 +90,19 @@
 
         //rect(x, y, w, [h], [tl], [tr], [br], [bl])
         fill(255);
-      
-   
+
+
         //CHRISTMAS TREE
-       // rect(195,66, 250, 348);
+        // rect(195,66, 250, 348);
         image(imgTree, 170, 30, 300, 417);
         //REINDEER
         //rect(0, 300, 150, 150);
         image(imgReindeer, 0, 330, 160, 150);
-    
-       
+
+
         if (pose) {
-           
-          showKerstbal();
+
+            showKerstbal();
             askSanta();
             //op het einde zetten zodat de neus over de images komt, ipv eronder
             getSkeletonpoints();
@@ -117,7 +117,7 @@
         y = pose.nose.y;
         //handje op neus
         //image(imgHand, x - 20, y - 20, 50, 50);
-        fill(255, 0 , 0);
+        fill(255, 0, 0);
         ellipse(x, y, 30);
         fill(0, 0, 255);
         ellipse(pose.rightWrist.x, pose.rightWrist.y, 64);
@@ -177,16 +177,16 @@
         let noseX = pose.nose.x;
         let noseY = pose.nose.y;
 
-             //dit is waar de kerstman komt
+        //dit is waar de kerstman komt
         //rect(490, 0, 150, 150);
         //als je niet over santa gaat!
-        if(!(noseX > 490 && noseY > 150 && noseY < 288)){
+        if (!(noseX > 490 && noseY > 150 && noseY < 288)) {
             image(imgHappySanta, 490, 150, 100, 115);
         }
 
-      //als je wel over santa gaat!
+        //als je wel over santa gaat!
         if (noseX > 490 && noseY > 150 && noseY < 288) {
-           image(imgSanta, 480, 140, 120, 135);
+            image(imgSanta, 480, 140, 120, 135);
             speech = true;
             santaText = "braaf zijn he";
         }
@@ -194,15 +194,17 @@
             speech = false;
             aanHetPraten = false;
             santaText = "Dear child, I have to tell you something";
-           
-            
+
+
         }
         textAlign(CENTER);
-        fill(255,255,255);
+        fill(255, 255, 255);
         textFont('Space mono');
         textSize(10);
         text(santaText, 470, 80, 150, 80);
     }
+
+
 
 
 }

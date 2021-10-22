@@ -20,44 +20,32 @@ html, body{
   --color-yellow:#f4c753;
   --color-red:#e94626;
   --color-pink:#ee8da7;
-
-
-  /*----distance units----*/
-  --s-99:.1rem;
-  --s-2:.2rem;
-  --s-4:.4rem;
-  --s-1:.5rem;
-  --s0:1rem;
-  --s1:1.5rem;
-  --s2:2rem;
-  --s3:3rem;
-  --s4:4rem;
   
   /*----font sizes text----*/
   --font-size-r: 1rem;
   --font-size-l: 1.25rem; 
 
-  /*----font sizes titles----*/
-  /*size quotes 25px*/
-  --font-size-1_5: 1.5rem; 
-  /*size h2 35px*/
-  --font-size-2: 2.2rem;
-  /*size h1 55px*/
-  --font-size-3_5: 3.5rem;
-  /*size 48px*/
-  --font-size-3: 3rem;
+
 }
 
 
 body {
   background-color: var(--color-primary);
-  margin-top:2rem;
+  color: var(--color-secundary)
+}
+
+.start {
+  display: block;
+  width: 10rem;
+  margin: 0 auto;
+  margin-top: 20rem;
 }
 
 
 .p5Canvas {
   /*border: 1px solid white;*/
-  /*display: none;*/
+  margin-top: 3rem;
+  display: none;
 }
 
 
