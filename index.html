@@ -10,19 +10,30 @@
     <!--scripts voor posenet skeleton-->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js"></script>
     <script src="https://unpkg.com/ml5@0.4.2/dist/ml5.min.js"></script>
+    <!--import fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Work+Sans:wght@300&display=swap"
+        rel="stylesheet">
     <title>Coolest christmas game</title>
 </head>
 
 <body>
+    <div class='stars'></div>
 
     <div class="start">
-        <h1>Welcome to the coolest Christmas game</h1>
-        <p>The goal is to have fun and to decorate the tree as best as you can of course.</p>
-        <p>Good luck!</p>
-        <button class="start__button">start</button>
+        <h1 class="start__title">Welcome to the coolest Christmas game</h1>
+        <p class="start__description">Decorate the tree as best as you can and have fun!</p>
+        <!--<p class="start__description">Good luck!</p>-->
+
+        <a class="start__button">Start the game</a>
+
+        <p class="start__disclaimer">Make sure to allow camera access and put your sound on. Your entire upper body
+            needs to be visible. Keep in mind that this game
+            only works in Google Chrome. </p>
     </div>
 
-    <div class='stars'></div>
+
 
     <div>
         <h1>Speech color changer</h1>

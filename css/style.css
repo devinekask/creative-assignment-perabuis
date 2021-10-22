@@ -18,12 +18,13 @@ html, body{
   --color-secundary: #FFF;
   --color-blue: #275de9;
   --color-yellow:#f4c753;
-  --color-red:#e94626;
+  --color-red:rgb(233, 70, 38);
   --color-pink:#ee8da7;
   
   /*----font sizes text----*/
+  --font-size-s: 0.8rem;
   --font-size-r: 1rem;
-  --font-size-l: 1.25rem; 
+  --font-size-l: 3rem; 
 
 
 }
@@ -31,14 +32,52 @@ html, body{
 
 body {
   background-color: var(--color-primary);
-  color: var(--color-secundary)
+  color: var(--color-secundary);
+  font-family: 'Space Mono', monospace;
+  font-weight: 400;
 }
 
 .start {
   display: block;
-  width: 10rem;
+  width: 42rem;
   margin: 0 auto;
-  margin-top: 20rem;
+  margin-top: 13rem;
+  text-align: center;
+  
+}
+.start__title {
+  font-size: var(--font-size-l);
+  margin-bottom: 2rem;
+}
+.start__description {
+ /* display: block;
+  width: 20rem;
+  margin: 0 auto;*/
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 300;
+  margin-bottom: 4rem;
+}
+
+.start__button {
+  cursor: pointer;
+  display: inline-block;
+
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  background-color: var(--color-blue);
+  border: var(--color-blue) 0.1rem solid;
+  font-family: 'Courier New', Courier, monospace;
+}
+.start__button:hover {
+  background-color: transparent;
+}
+.start__disclaimer {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 200;
+  width: 20rem;
+  margin: 0 auto;
+  margin-top: 10rem;
+  font-size: var(--font-size-s);
 }
 
 
@@ -48,7 +87,7 @@ body {
   display: none;
 }
 
-
+/*----------------ANIMATION STARS--------------*/
 /*ANIMATON OPTION 1*/
 @keyframes flickerAnimation1 {
   0%   { opacity:1; }
