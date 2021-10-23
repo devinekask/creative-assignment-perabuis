@@ -7,6 +7,31 @@
     let decorationsArr;
 
 
+
+    let myBalls = 0;
+    setInterval(function () {
+        myBalls = christmasDecorationArr.filter(item => item.rollover).length;
+        /*if (myBalls > 1) {
+            console.log('te veel ballen');
+            christmasDecorationArr.forEach(ball => {
+                if (ball.rollover == true) {
+                    ball.rollover == false;
+                    ball.laatLos == true;
+                    ball.ballX += 40;
+                    ball.ballY = 60;
+                    console.log('ik heb ze verspreid');
+                }
+            })
+        }
+        else {
+            console.log('niet te veel ballen');
+        }*/
+    }, 1000);
+
+
+
+
+
     const makeDecorationsArray = () => {
         for (let i = 0; i <= 11; i++) {
             christmasDecorationArr.push({ image: eval(`imgDecoration${i}`), ballX: getRandomNumber(1, 170), ballY: getRandomNumber(1, 230), heightBall: 30, widthBall: 30, rollover: false, laatLos: false });
@@ -23,6 +48,7 @@
         imgSanta = loadImage('assets/img/santa.png');
         imgSpeakingSanta = loadImage('assets/img/speaking_santa.png');
         imgTree = loadImage('assets/img/tree.png');
+        imgLucifer = loadImage('assets/img/match.png');
 
         imgDecoration0 = loadImage('assets/img/decorations/ball0.png');
         imgDecoration1 = loadImage('assets/img/decorations/ball1.png');
@@ -91,8 +117,8 @@
             showKerstbal();
             askSanta();
             getSkeletonpoints();
+            checkFire();
         }
-
     }
 
 
@@ -123,10 +149,20 @@
     function showKerstbal() {
         decorationsArr.forEach(kerstbal => {
             //if you don't hover over the ball
+            if (myBalls >= 3) {
+                kerstbal.ballY = getRandomNumber(1, 230);
+                kerstbal.ballX = getRandomNumber(1, 170);
+                textSize(15);
+                text(`Don't be greedy! One ball at a time!`, 220, 30, 200, 80);
+
+            }
             if (!kerstbal.rollover) {
                 checkNoseOver(kerstbal);
                 image(kerstbal.image, kerstbal.ballX, kerstbal.ballY, kerstbal.widthBall, kerstbal.heightBall)
             }
+
+
+
             //if you hover over the ball
             else {
                 checkReindeerRelease(kerstbal);
@@ -143,10 +179,13 @@
                     kerstbal.rollover = false;
 
                 }
+
             }
+
         })
 
     }
+
 
     function checkNoseOver(kerstbal) {
         // Is nose over object?
@@ -197,6 +236,74 @@
 
         text(santaText, 470, 250, 150, 80);
     }
+
+    function checkFire() {
+        let noseX = pose.nose.x;
+        let noseY = pose.nose.y;
+
+        luciferX = 500;
+        luciferY = 50;
+        luciferOver = false;
+
+        if (noseX <= luciferX + 100 && noseX >= luciferX && noseY <= luciferY + 100 && noseY >= luciferY) {
+            console.log('tis waar!!');
+            luciferOver === true;
+            if (luciferOver == true) {
+                luciferX = pose.nose.x;
+                luciferY = pose.nose.y;
+            }
+        }
+
+        image(imgLucifer, luciferX, luciferY, 100, 83);
+
+
+        //if you don't hover over fire!
+        /* if (!(noseX > 490 && noseY > 320)) {
+             image(imgSanta, 490, 330, 120, 135);
+             //image(imgHappySanta, 490, 150, 100, 115);
+         }
+ 
+         //if you don't hover over fire!
+         if (noseX > 490 && noseY > 320) {
+ 
+             //if the fire hits the tree
+             if () {
+ 
+             }
+             tsjing2.play();
+             image(imgSpeakingSanta, 480, 320, 140, 158);
+             speech = true;
+             santaText = "You've been a sweet child this year. I will reward you with a special ball. Tell me your favorite colour.";
+         }
+ 
+ 
+         text(santaText, 470, 250, 150, 80);*/
+    }
+
+    /* setInterval(function () {
+         christmasDecorationArr.forEach(decoration => {
+             return count(decoration.rollover);
+             }
+         })
+     }, 1000);*/
+
+
+
+
+
+
+
+
+    /*  setInterval(function () {
+          if (countRollover > 2) {
+              console.log('meer dan twee');
+              /* christmasDecorationArr.forEach(decoration => {
+                   if (decoration.rollover === true) {
+                       decoration.ballX -= 40;
+                   }
+               })
+          }
+      }, 100)*/
 
 
 }
