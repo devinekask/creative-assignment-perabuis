@@ -19,49 +19,38 @@
 </head>
 
 <body>
+    <!--Some nice stars for the background are added here-->
     <div class='stars'></div>
 
+    <!--Intro game-->
     <div class="start">
         <h1 class="start__title">Welcome to the coolest Christmas game</h1>
         <p class="start__description">Decorate the tree as best as you can and have fun!</p>
-        <!--<p class="start__description">Good luck!</p>-->
-
         <a class="start__button">Start the game</a>
-
         <p class="start__disclaimer">Make sure to allow camera access and put your sound on. Your entire upper body
             needs to be visible. Keep in mind that this game
-            only works in Google Chrome. </p>
-    </div>
-
-
-
-    <div>
-        <h1>Speech color changer</h1>
-
-        <p class="hints"></p>
-        <div>
-            <p class="output"><em>...diagnostic messages</em></p>
-        </div>-->
-
-        <!--Here the stars are added-->
+            only works in Google Chrome & mozilla firefox. </p>
     </div>
 
 
     <script>
-        var myFunctionTag = false;
+        //global variable to add christmas decorations
         let christmasDecorationArr = [];
+        //to check if nose hovers over santa, if hover:start speech recognition
         let speech = false;
         let aanHetPraten = false;
 
-        let santaText = 'Hallo lieve kindjes, ik ben de kerstman';
+
+        let santaText = '';
+        let instructionText = '';
+        let reindeerText = '';
+
+        let diagnosticSpeech;
     </script>
-    <!-- <canvas class="canvas" width="600" height="600"></canvas> -->
+
     <script src="js/stars.js"></script>
     <script src="js/speech.js"></script>
     <script src="js/script.js"></script>
-
-
-
 </body>
 
 </html>

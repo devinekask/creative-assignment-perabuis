@@ -1,6 +1,4 @@
 {
-
-
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
     var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
     var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
@@ -17,19 +15,8 @@
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
-    var diagnostic = document.querySelector('.output');
-    var bg = document.querySelector('html');
-    var hints = document.querySelector('.hints');
 
-    var colorHTML = '';
-    /* colors.forEach(function (v, i, a) {
-         //V is de kleur, i de index, a zijn ze allemaal
-         console.log(v, i);
-         colorHTML += '<span style="background-color:' + v + ';"> ' + v + ' </span>';
-     });*/
- //   hints.innerHTML = 'Tap/click then say a color to change the background color of the app. Try ' + colorHTML + '.';
-
-
+    //set interval to check every few milliseconds if speech is ready to be started
     setInterval(function () {
         if (speech) {
             if (aanHetPraten) {
@@ -41,37 +28,52 @@
                 console.log('Ready to receive a color command.');
             }
         }
-    }, 1000);
+    }, 500);
 
-    /* document.body.onclick = function () {
-         recognition.start();
-         console.log('Ready to receive a color command.');
-     }*/
+
 
     recognition.onresult = function (event) {
-        // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-        // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-        // It has a getter so it can be accessed like an array
-        // The first [0] returns the SpeechRecognitionResult at the last position.
-        // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-        // These also have getters so they can be accessed like arrays.
-        // The second [0] returns the SpeechRecognitionAlternative at position 0.
-        // We then return the transcript property of the SpeechRecognitionAlternative object
-        var color = event.results[0][0].transcript;
-        diagnostic.textContent = 'Result received: ' + color + '.';
-       // bg.style.backgroundColor = color;
+        let color = event.results[0][0].transcript;
+        color = color.toLowerCase();
+        console.log('i heard' + color);
+        let ballNumber = getRandomNumber(9, 10);
 
-        if(color == 'blue'){
+
+        if (color == 'pink' || color == 'coral' || color == 'fuchsia' || color == 'orange' || color == 'orchid' || color == 'salmon') {
+            ballNumber = 0;
+            console.log('tis roos!');
+        }
+        else if (color == 'aqua' || color == 'azure' || color == 'blue' || color == 'cyan' || color == 'indigo' || color == 'maroon' || color == 'navy' || color == 'turquoise') {
+            ballNumber = 1;
             console.log('tis blauw!');
-            christmasDecorationArr.push({ image: imgDecoration2, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
         }
-        else {
-            christmasDecorationArr.push({ image: imgDecoration1, ballX: 60, ballY: 90, heightBall: 50, widthBall: 50, rollover: false, laatLos: false });
-            //  console.log(christmasDecorationArr);
+        else if (color == 'violet' || color == 'lavender' || color == 'purple') {
+            ballNumber = 14;
+            console.log('tis paars!');
+
         }
-        //console.log(color);
-        //console.log('Confidence: ' + event.results[0][0].confidence);
-        
+        else if (color == 'crimson' || color == 'red' || color == 'sienna' || color == 'tomato') {
+            console.log('tis rood!');
+            ballNumber = 2;
+        }
+        else if (color == 'gold' || color == 'goldenrod' || color == 'yellow') {
+            console.log('tis geel!');
+            ballNumber = 3;
+        }
+        else if (color == 'green' || color == 'khaki' || color == 'lime' || color == 'olive') {
+            console.log('tis groen!');
+            ballNumber = 12;
+        }
+        else if (color == 'black' || color == 'brown' || color == 'chocolate' || color == 'gray' || color == 'moccasin') {
+            console.log('tis zwart!');
+            ballNumber = 13;
+        }
+        else if (color == 'white' || color == 'beige' || color == 'ivory' || color == 'silver' || color == 'snow') {
+            console.log('tis zwart!');
+            ballNumber = 15;
+        }
+
+        christmasDecorationArr.push({ image: eval(`imgDecoration${ballNumber}`), ballX: 490, ballY: 200, heightBall: 35, widthBall: 35, rollover: false, laatLos: false });
     }
 
     recognition.onspeechend = function () {
@@ -80,12 +82,13 @@
     }
 
     recognition.onnomatch = function (event) {
-        diagnostic.textContent = "I didn't recognise that color.";
+        diagnosticSpeech = "I didn't recognise that color.";
+
         aanHetPraten = false;
     }
 
     recognition.onerror = function (event) {
-        diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+        diagnosticSpeech = 'Error occurred in recognition: ' + event.error;
         aanHetPraten = false;
         speech = false;
         if (event.error == 'no-speech') {
@@ -93,4 +96,5 @@
             console.log('sorry ik hoorde je niet');
         }
     }
+
 }
