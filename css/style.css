@@ -16,7 +16,7 @@ html, body{
   /*----color palette----*/
   --color-primary: #000;
   --color-secundary: #FFF;
-  --color-blue: #275de9;
+  --color-blue: rgb(39, 93, 233);
   --color-yellow:#f4c753;
   --color-red:rgb(233, 70, 38);
   --color-pink:#ee8da7;

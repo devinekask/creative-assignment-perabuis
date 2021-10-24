@@ -15,12 +15,11 @@
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
-
     //set interval to check every few milliseconds if speech is ready to be started
     setInterval(function () {
         if (speech) {
             if (aanHetPraten) {
-                console.log('ik ben al aan het luisteren');
+                console.log('I am hearing you');
             }
             else {
                 aanHetPraten = true;
@@ -29,8 +28,6 @@
             }
         }
     }, 500);
-
-
 
     recognition.onresult = function (event) {
         let color = event.results[0][0].transcript;
@@ -41,38 +38,37 @@
 
         if (color == 'pink' || color == 'coral' || color == 'fuchsia' || color == 'orange' || color == 'orchid' || color == 'salmon') {
             ballNumber = 0;
-            console.log('tis roos!');
+            console.log('pink!');
         }
         else if (color == 'aqua' || color == 'azure' || color == 'blue' || color == 'cyan' || color == 'indigo' || color == 'maroon' || color == 'navy' || color == 'turquoise') {
             ballNumber = 1;
-            console.log('tis blauw!');
+            console.log('blue!');
         }
         else if (color == 'violet' || color == 'lavender' || color == 'purple') {
             ballNumber = 14;
-            console.log('tis paars!');
+            console.log('purple!');
 
         }
         else if (color == 'crimson' || color == 'red' || color == 'sienna' || color == 'tomato') {
-            console.log('tis rood!');
+            console.log('red!');
             ballNumber = 2;
         }
         else if (color == 'gold' || color == 'goldenrod' || color == 'yellow') {
-            console.log('tis geel!');
+            console.log('gold!');
             ballNumber = 3;
         }
         else if (color == 'green' || color == 'khaki' || color == 'lime' || color == 'olive') {
-            console.log('tis groen!');
+            console.log('green!');
             ballNumber = 12;
         }
         else if (color == 'black' || color == 'brown' || color == 'chocolate' || color == 'gray' || color == 'moccasin') {
-            console.log('tis zwart!');
+            console.log('black!');
             ballNumber = 13;
         }
         else if (color == 'white' || color == 'beige' || color == 'ivory' || color == 'silver' || color == 'snow') {
-            console.log('tis zwart!');
+            console.log('white!');
             ballNumber = 15;
         }
-
         christmasDecorationArr.push({ image: eval(`imgDecoration${ballNumber}`), ballX: 490, ballY: 200, heightBall: 35, widthBall: 35, rollover: false, laatLos: false });
     }
 
@@ -82,18 +78,15 @@
     }
 
     recognition.onnomatch = function (event) {
-        diagnosticSpeech = "I didn't recognise that color.";
-
+        console.log("I didn't recognise that color.");
         aanHetPraten = false;
     }
 
     recognition.onerror = function (event) {
-        diagnosticSpeech = 'Error occurred in recognition: ' + event.error;
         aanHetPraten = false;
         speech = false;
         if (event.error == 'no-speech') {
-            //hier een variabele maken met feedback van santa
-            console.log('sorry ik hoorde je niet');
+            console.log('Error occured' + event.error);
         }
     }
 

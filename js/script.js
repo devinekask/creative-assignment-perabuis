@@ -6,30 +6,12 @@
 
     let decorationsArr;
 
-
+    let burning = 0;
 
     let myBalls = 0;
     setInterval(function () {
         myBalls = christmasDecorationArr.filter(item => item.rollover).length;
-        /*if (myBalls > 1) {
-            console.log('te veel ballen');
-            christmasDecorationArr.forEach(ball => {
-                if (ball.rollover == true) {
-                    ball.rollover == false;
-                    ball.laatLos == true;
-                    ball.ballX += 40;
-                    ball.ballY = 60;
-                    console.log('ik heb ze verspreid');
-                }
-            })
-        }
-        else {
-            console.log('niet te veel ballen');
-        }*/
-    }, 1000);
-
-
-
+    }, 500);
 
 
     const makeDecorationsArray = () => {
@@ -49,6 +31,7 @@
         imgSpeakingSanta = loadImage('assets/img/speaking_santa.png');
         imgTree = loadImage('assets/img/tree.png');
         imgLucifer = loadImage('assets/img/match.png');
+        imgburning = loadImage('assets/img/tree.GIF');
 
         imgDecoration0 = loadImage('assets/img/decorations/ball0.png');
         imgDecoration1 = loadImage('assets/img/decorations/ball1.png');
@@ -103,10 +86,9 @@
         image(video, 0, 0);
         background(0, 0, 0);
 
-        image(imgTree, 170, 30, 300, 417);
-
         image(imgReindeer, 0, 330, 160, 150);
-
+        image(imgTree, 170, 30, 300, 417);
+        image(imgLucifer, 500, 50, 100, 83);
 
         textAlign(CENTER);
         fill(255, 255, 255);
@@ -125,22 +107,19 @@
     function getSkeletonpoints() {
         x = pose.nose.x;
         y = pose.nose.y;
-        //handje op neus
         image(imgNose, x - 20, y - 20, 40, 25);
 
         if (pose.score > 0.3) {
             instructionText = `Use your nose to decorate the three`;
+            image(imgRightHand, pose.rightWrist.x, pose.rightWrist.y, 40, 50);
+            image(imgLeftHand, pose.leftWrist.x, pose.leftWrist.y, 50, 43);
             if (pose.nose.x > 350) {
-                image(imgRightHand, pose.rightWrist.x, pose.rightWrist.y, 40, 50);
-                image(imgLeftHand, pose.leftWrist.x, pose.leftWrist.y, 50, 43);
                 instructionText = `Pssst.. Santa has to tell you something`;
             }
         }
         else {
             instructionText = `Your hands aren't visible`;
         }
-
-
         fill(233, 70, 38);
         text(instructionText, 250, 0, 150, 80);
     }
@@ -150,18 +129,18 @@
         decorationsArr.forEach(kerstbal => {
             //if you don't hover over the ball
             if (myBalls >= 3) {
-                kerstbal.ballY = getRandomNumber(1, 230);
-                kerstbal.ballX = getRandomNumber(1, 170);
-                textSize(15);
-                text(`Don't be greedy! One ball at a time!`, 220, 30, 200, 80);
-
+                text(`Don't be greedy!`, 0, 100, 150, 80);
+                if (kerstbal.rollover == true) {
+                    kerstbal.ballY = getRandomNumber(1, 230);
+                    kerstbal.ballX = getRandomNumber(1, 170);
+                    kerstbal.rollover = false;
+                    kerstbal.laatLos = true;
+                }
             }
             if (!kerstbal.rollover) {
                 checkNoseOver(kerstbal);
                 image(kerstbal.image, kerstbal.ballX, kerstbal.ballY, kerstbal.widthBall, kerstbal.heightBall)
             }
-
-
 
             //if you hover over the ball
             else {
@@ -177,13 +156,9 @@
                 else {
                     image(kerstbal.image, kerstbal.ballX, kerstbal.ballY, kerstbal.widthBall, kerstbal.heightBall);
                     kerstbal.rollover = false;
-
                 }
-
             }
-
         })
-
     }
 
 
@@ -213,8 +188,6 @@
     function askSanta() {
         let noseX = pose.nose.x;
         let noseY = pose.nose.y;
-
-
         //if you don't hover over Santa
         if (!(noseX > 490 && noseY > 320)) {
             image(imgSanta, 490, 330, 120, 135);
@@ -233,77 +206,29 @@
             aanHetPraten = false;
             santaText = "";
         }
-
         text(santaText, 470, 250, 150, 80);
     }
 
     function checkFire() {
-        let noseX = pose.nose.x;
-        let noseY = pose.nose.y;
+        let posX = pose.rightWrist.x;
+        let posY = pose.rightWrist.y;
 
         luciferX = 500;
         luciferY = 50;
-        luciferOver = false;
 
-        if (noseX <= luciferX + 100 && noseX >= luciferX && noseY <= luciferY + 100 && noseY >= luciferY) {
-            console.log('tis waar!!');
-            luciferOver === true;
-            if (luciferOver == true) {
-                luciferX = pose.nose.x;
-                luciferY = pose.nose.y;
-            }
+        if (posX <= luciferX + 100 && posX >= luciferX && posY <= luciferY + 100 && posY >= luciferY) {
+            text("Don't touch the match with your hand or you will get burned!", 470, 0, 150, 80);
+            burning++;
         }
 
-        image(imgLucifer, luciferX, luciferY, 100, 83);
-
-
-        //if you don't hover over fire!
-        /* if (!(noseX > 490 && noseY > 320)) {
-             image(imgSanta, 490, 330, 120, 135);
-             //image(imgHappySanta, 490, 150, 100, 115);
-         }
- 
-         //if you don't hover over fire!
-         if (noseX > 490 && noseY > 320) {
- 
-             //if the fire hits the tree
-             if () {
- 
-             }
-             tsjing2.play();
-             image(imgSpeakingSanta, 480, 320, 140, 158);
-             speech = true;
-             santaText = "You've been a sweet child this year. I will reward you with a special ball. Tell me your favorite colour.";
-         }
- 
- 
-         text(santaText, 470, 250, 150, 80);*/
+        if (burning > 200) {
+            clear();
+            background(0, 0, 0);
+            image(imgburning, 100, 0, 480, 480);
+            textSize(30);
+            fill(39, 93, 233);
+            textAlign(LEFT);
+            text("Well good job, you idiot! Game over!", 0, 50, 200, 300);
+        }
     }
-
-    /* setInterval(function () {
-         christmasDecorationArr.forEach(decoration => {
-             return count(decoration.rollover);
-             }
-         })
-     }, 1000);*/
-
-
-
-
-
-
-
-
-    /*  setInterval(function () {
-          if (countRollover > 2) {
-              console.log('meer dan twee');
-              /* christmasDecorationArr.forEach(decoration => {
-                   if (decoration.rollover === true) {
-                       decoration.ballX -= 40;
-                   }
-               })
-          }
-      }, 100)*/
-
-
 }

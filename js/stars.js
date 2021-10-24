@@ -5,9 +5,8 @@ const getRandomNumber = (min, max) => {
 }
 
 
-//START THE GAME
+//START GAME
 //START THE MUSIC
-
 let audio = new Audio('../assets/sound/christmasSongs.mp3');
 let $startSection = document.querySelector(".start");
 let $startButton = document.querySelector(".start__button");
@@ -22,7 +21,6 @@ $startButton.addEventListener("click", function () {
   var game = document.querySelector('.p5Canvas');
   game.style.display = 'inline-block';
 });
-
 
 
 // ANIMATE THE STARS IN THE BACKGROUND
